@@ -26,6 +26,40 @@ body {
   padding: 0 20px;
 }
 
+/*BOTON*/
+
+.button{
+  width: 180px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  margin-left: 15rem;
+  padding: 0.5rem;
+}
+
+.btn{
+text-align: center;
+text-decoration: none;
+padding: 10px 10px;
+font-family: "Baloo 2", sans-serif;
+font-weight: bolder;
+font-size: 1.2rem;
+position:relative;
+margin: 10px;
+color: var(--purple);
+border-radius: 15px;
+background:radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
+background-blend-mode: screen;
+}
+
+.btn:hover{
+  background: linear-gradient(to top, #bdc2e8 0%, #bdc2e8 1%, #e6dee9 100%);
+  cursor: pointer;
+}
+
+
 /*PERFIL*/
 
 .perfil h1 {
@@ -59,9 +93,9 @@ body {
 .agregar-tarea input {
   width: 100%;
   height: 100%;
-  color: var(--purple);
-  border:none;
+  border: none;
   background-color: var(--white);
+  padding-left:10px ;
 }
 
 .agregar-tarea i {
@@ -77,8 +111,7 @@ body {
 
 .agregar-tarea input::placeholder {
   font-size: 1.1 rem;
-  color: var(--purple);
-
+  color: var(--purple-light);
 }
 
 /*SECCION TAREA*/
@@ -86,7 +119,7 @@ body {
 .seccion-tarea h3 {
   color: var(--white);
   margin-bottom: 25px;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .seccion-tarea li {

@@ -1,68 +1,22 @@
 //Creacion de fecha
 
-const fecha = document.querySelector("#fecha"); //Selecciona el div con ese id
+const fecha = document.querySelector("#fecha");
 const FECHA = new Date();
-/*FECHA.charAt(0).toUpperCase()*/
-fecha.innerHTML = FECHA.toLocaleDateString("es-AR", {
-  weekday: "long",
-  month: "short",
-  day: "numeric",
-}); /*Selecciona el espacio que hay vacio*/
 
-//Saludo
+const actualizarElementoHTML = (elemento, datos) => {
+  elemento.innerHTML = datos.toLocaleDateString("es-AR", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  });
+};
 
-alert("¡Vamos a interactuar!");
-const pedirNombre = prompt("Ingrese su nombre").toUpperCase();
-console.log(pedirNombre);
+actualizarElementoHTML(fecha, FECHA);
 
-const pedirGenero = prompt(
-  "Ingrese su genero : Masculino,femenino,otro"
-).toLocaleLowerCase();
-const pedirEdad = prompt("Ingrese su edad");
+ //EVENTOS
 
-const saludo = prompt(
-  `Hola ${pedirNombre}! Te gustaria tener una App de Tareas? Responda si o no`
-).toLocaleLowerCase();
-console.log(saludo);
-
-let usuarioInfo = [pedirNombre, pedirGenero, pedirEdad];
-
-//Control de flujo
-
-if (saludo == "si" && pedirGenero == "masculino") {
-  alert("Bienvenido a tu app de tareas");
-} else if (saludo == "si" && pedirGenero == "femenino") {
-  alert("Bienvenida a tu app de tareas");
-} else if (saludo == "si" && pedirGenero == "otro") {
-  alert("Bienvenid@ a tu app de tareas");
-} else {
-  alert("¡Que pena!Es una gran herramienta.");
-}
-
-console.log(usuarioInfo);
-
-//ATAJOS
-
-/*switch (pedirGenero) {
-  case "Masculino":
-    alert("Bienvenido a tu app de tareas");
-    break;
-  case "Femenino":
-    alert("Bienvenida a tu app de tareas");
-    break;
-  case "Otro":
-    alert("Bienvenid@ a tu app de tareas");
-    break;
-  default:
-    alert("¡Que pena!Es una gran herramienta.");
-}*/
-
-/*Interactuar con el usuario,dandole opciones sobre para que la usaria:
-1 Me permitiria establecer los objetivos de mi jornada.
-2 Mejoraria mi memoria con su uso regular.
-3 Obtendria un impulso motivacional al finalizar cada tarea.
-4 Aprovecharia mejor mi tiempo.
-*/
+const botonTrivia = document.getElementById("boton");
+botonTrivia.addEventListener("click", uso);
 
 function uso() {
   let opciones;
@@ -76,11 +30,11 @@ function uso() {
       prompt(`
    1 - Me permitiría establecer los objetivos de mi jornada.
    2 - Mejoraría mi memoria con su uso regular.
-   3 - Obtendría un impulso motivacional al finalizar cada tarea."
+   3 - Obtendría un impulso motivacional al finalizar cada tarea.
    4 - Aprovecharía mejor mi tiempo.`)
     );
     if (opciones == "1") {
-      alert("Excelente desición¡Concéntrate en tus objetivos!");
+      alert("Excelente decisión¡Concéntrate en tus objetivos!");
     } else if (opciones == "2") {
       alert(
         "¡Es verdad!,esta herramienta mejoraría gradualmente tu capacidad para recordar y seguir tus tareas diarias."
@@ -102,6 +56,82 @@ function uso() {
   );
 }
 
-console.log(uso());
 
-//En este caso usaria ciclo do while para repetir las respuestas en caso que la respuesta dada por el usuario no sea las asiganadas en la pregunta.
+//AGREGAR TAREA
+
+const lista = document.querySelector("#lista");
+const input = document.querySelector("#input");
+const botonEnter = document.querySelector("#enter");
+const check = "fa-check-circle";
+const uncheck = "fa-circle";
+const lineThrough = "line-through";
+let id;
+let LIST;
+
+function agregarTarea(tarea, id, realizado, eliminado) {
+  const elemento = `<li id = "elemento">
+                    <i class="far fa-circle" data="realizado" id="${id}"></i>
+                    <p class="text line-through">${tarea}</p>
+                    <i class="fas fa-trash de" data="eliminado" id="${id}"></i>
+                    </li>`;
+
+  lista.insertAdjacentHTML("beforeend", elemento);
+}
+
+botonEnter.addEventListener("click", () => {
+  const tarea = input.value;
+  if (tarea) {
+    agregarTarea(tarea, id, false, false);
+    LIST.push({
+      nombre: tarea,
+      id: id,
+      realizado: false,
+      eliminado: false,
+    });
+
+    localStorage.setItem("TODO", JSON.stringify(LIST));
+    id++;
+    input.value = "";
+  }
+});
+
+
+document.addEventListener("keyup", function (event) {
+  if (event.key == "Enter") {
+    const tarea = input.value;
+    if (tarea) {
+      agregarTarea(tarea, id, false, false);
+      LIST.push({
+        nombre: tarea,
+        id: id,
+        realizado: false,
+        eliminado: false,
+      });
+
+      localStorage.setItem("TODO", JSON.stringify(LIST));
+
+      input.value = "";
+      id++;
+      console.log(LIST);
+    }
+  }
+})
+
+//Local storage get item
+
+let data = localStorage.getItem("TODO");
+if (data) {
+  LIST = JSON.parse(data);
+  console.log(LIST)
+  id = LIST.length;
+  cargarLista(LIST);
+} else {
+  LIST = [];
+  id = 0;
+}
+
+function cargarLista(array) {
+  array.forEach(function (i) {
+    agregarTarea(i.nombre, i.id, i.realizazo, i.eliminado);
+  });
+}
